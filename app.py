@@ -110,7 +110,21 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
-st.title("🚀 Kinesis: Sistema de Inteligencia Generativa")
+st.markdown(
+    """
+    <div style="text-align: center; margin-top: 10px;">
+        <img src="data:image/png;base64,{}" width="90">
+        <h1 style="margin-top: 20px;">
+            ¡Hola, ChangeLab! <br>
+            Soy el experto en el proyecto Kinesis ¿En qué te puedo ayudar hoy?
+        </h1>
+    </div>
+    """.format(
+        __import__("base64").b64encode(open("cabezarobot.png", "rb").read()).decode()
+    ),
+    unsafe_allow_html=True
+)
+
 
 # --- 4. CARGA DE DATOS (CON CACHÉ Y SPINNER) ---
 @st.cache_resource
