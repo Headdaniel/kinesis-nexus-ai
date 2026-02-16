@@ -122,7 +122,7 @@ st.markdown(
         </h3>
     </div>
     """.format(
-        __import__("base64").b64encode(open("data/cabezarobot.png", "rb").read()).decode()
+        __import__("base64").b64encode(open("cabezarobot.png", "rb").read()).decode()
     ),
     unsafe_allow_html=True
 )
