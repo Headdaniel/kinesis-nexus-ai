@@ -88,14 +88,13 @@ st.markdown("""
         color: #c9e0ffff !important; 
     }
 
-    .kpi-box { 
-        background: #002f6cff; 
-        padding: 25px; 
-        border-radius: 12px; 
-        text-align: center; 
-        border: 2px solid #c9e0ffff; 
-        margin: 15px 0; 
+    .kpi-box {
+    background-color: #001f4d !important;  /* Más oscuro que el texto */
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #c9e0ffff;
     }
+
 
     .kpi-value { 
         font-size: 3.8rem; 
