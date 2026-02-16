@@ -14,7 +14,27 @@ from langchain_core.documents import Document
 # --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
 
+# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == "Kinesis2026":
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]
+        else:
+            st.session_state["password_correct"] = False
 
+    if "password_correct" not in st.session_state:
+        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
+        st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
+        return False
+    elif not st.session_state["password_correct"]:
+        st.text_input("Clave incorrecta. Intenta de nuevo", type="password", on_change=password_entered, key="password")
+        st.error("😕 Ups, esa no es la clave.")
+        return False
+    return True
+
+if not check_password():
+    st.stop()
 
 # --- 3. CONFIGURACIÓN DE RECURSOS ---
 load_dotenv()
@@ -26,9 +46,7 @@ CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
 
 def ingest_context_csv_to_chroma(v_db, csv_path: str):
     df_ctx = pd.read_csv(csv_path)
-
     full_text = ""
-
     for _, row in df_ctx.iterrows():
         for col in df_ctx.columns:
             value = str(row[col]).strip()
@@ -40,34 +58,63 @@ def ingest_context_csv_to_chroma(v_db, csv_path: str):
         page_content=full_text,
         metadata={"source": "context_csv_full"}
     )
-
-
     v_db.add_documents([doc])
 
 
-# Estilo CSS para modo oscuro total y centrado
+# --- ESTILO CSS ---
 st.markdown("""
     <style>
-    .stApp { 
-        background-color: #002f6cff !important; 
-    }
-
-    .block-container { 
-        max-width: 800px; 
-        padding-top: 2rem; 
-    }
-
+    .stApp { background-color: #002f6cff !important; }
+    .block-container { max-width: 800px; padding-top: 2rem; }
     footer {display: none;}
+
+    [data-testid="stBottom"], 
+    [data-testid="stBottomBlockContainer"] { background-color: #002f6cff !important; }
+
+    [data-testid="stChatInput"] { max-width: 800px; margin: 0 auto; background-color: #002f6cff !important; }
+
+    [data-testid="stChatInput"] textarea { 
+        background-color: #002f6cff !important; 
+        color: #c9e0ffff !important; 
+        border: 1px solid #c9e0ffff !important; 
+    }
+
+    .stChatMessage { 
+        background-color: #002f6cff !important; 
+        border-radius: 15px !important; 
+        border: 1px solid #c9e0ffff !important; 
+    }
+
+    .stMarkdown, p, li, span, h1, h2, h3, label, div, textarea, input { 
+        color: #c9e0ffff !important; 
+    }
+
+    .kpi-box {
+        background-color: #001f4d !important;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #c9e0ffff;
+    }
+
+    .kpi-value { 
+        font-size: 3.8rem; 
+        font-weight: 800; 
+        color: #c9e0ffff; 
+    }
+
+    pre, code {
+        background-color: #001f4d !important;
+        color: #c9e0ffff !important;
+    }
 
     .logo-container {
         position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
+        top: 30px;
+        left: 30px;
     }
 
     .logo-container img {
-        width: 90px;
+        width: 95px;
     }
 
     @media (max-width: 768px) {
@@ -78,13 +125,15 @@ st.markdown("""
             margin-top: 20px;
         }
         .logo-container img {
-            width: 70px;
+            width: 80px;
         }
     }
 
     </style>
 """, unsafe_allow_html=True)
 
+
+# --- LOGO KINESIS ---
 st.markdown(
     """
     <div class="logo-container">
@@ -97,6 +146,7 @@ st.markdown(
 )
 
 
+# --- HEADER ROBOT ---
 st.markdown(
     """
     <div style="text-align: center; margin-top: 120px;">
@@ -115,18 +165,14 @@ st.markdown(
 )
 
 
-
-# --- 4. CARGA DE DATOS (CON CACHÉ Y SPINNER) ---
+# --- CARGA ---
 @st.cache_resource
 def load_all():
     with st.spinner("Cargando base de conocimientos..."):
-        # Modelos para PDF
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         v_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
-        
         ingest_context_csv_to_chroma(v_db, CONTEXT_CSV_FILE)
 
-        # Base de datos SQL
         con = duckdb.connect(database=':memory:')
         df = pd.read_csv(CSV_FILE)
         df.columns = [re.sub(r'[^\w]', '_', c.lower().strip().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')) for c in df.columns]
@@ -134,16 +180,14 @@ def load_all():
         esquema = con.execute("DESCRIBE kinesis").df()[['column_name', 'column_type']].to_string()
         return v_db, con, esquema
 
-# Intentar cargar todo
 try:
     v_db, sql_db, esquema_cols = load_all()
-    
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
 
 
-# --- 5. FUNCIONES DE IA ---
+# --- IA ---
 def get_ai_response(prompt, context="", df_data=None):
     if df_data is not None:
         sys_msg = "Eres un analista experto. Resume los datos en una frase natural y breve. Sé directo."
@@ -151,97 +195,82 @@ def get_ai_response(prompt, context="", df_data=None):
     else:
         sys_msg = (
             "Eres el Analista Principal de Kinesis.\n\n"
-            "REGLAS IMPORTANTES:\n"
-            "1. Si la respuesta está explícitamente en el CONTEXTO proporcionado, debes usarlo como fuente principal.\n"
-            "2. No inventes ni infieras si el contexto contiene la respuesta.\n"
-            "3. Solo usa SQL si la pregunta requiere cálculos sobre la tabla 'kinesis'.\n"
-            "4. Si la pregunta es conceptual o programática, responde usando el CONTEXTO.\n\n"
-            "TABLA DISPONIBLE: 'kinesis'\n"
+            "Usa el CONTEXTO si contiene la respuesta.\n"
             f"Esquema: {esquema_cols}\n\n"
-            "CONTEXTO DISPONIBLE:\n"
             f"{context}\n"
         )
         content = prompt
 
     res = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "system", "content": sys_msg},
-            {"role": "user", "content": content}
-        ],
+        messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": content}],
         temperature=0.1
     )
     return res.choices[0].message.content
 
 
-# --- 6. INTERFAZ DE CHAT ---
+# --- CHAT ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mostrar historial
 for m in st.session_state.messages:
     with st.chat_message(m["role"]):
         st.markdown(m["content"])
         if "viz" in m:
-            if m["viz_type"] == "chart": st.plotly_chart(m["viz"], use_container_width=True)
-            elif m["viz_type"] == "kpi": st.markdown(f'<div class="kpi-box"><div class="kpi-value">{m["viz"]}</div></div>', unsafe_allow_html=True)
+            if m["viz_type"] == "chart":
+                st.plotly_chart(m["viz"], use_container_width=True)
+            elif m["viz_type"] == "kpi":
+                st.markdown(f'<div class="kpi-box"><div class="kpi-value">{m["viz"]}</div></div>', unsafe_allow_html=True)
 
-# Entrada del usuario
 if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
     with st.chat_message("assistant"):
-        # Buscar en PDF
-        docs = v_db.similarity_search(user_input, k=6)
 
+        docs = v_db.similarity_search(user_input, k=6)
         context_text = "\n".join([d.page_content for d in docs])
-        
-        # Obtener respuesta inicial
+
         initial_res = get_ai_response(user_input, context_text)
-        
+
         if "SELECT" in initial_res.upper():
             try:
-                # Extraer y limpiar SQL
                 sql_match = re.search(r'SELECT.*', initial_res.replace('\n', ' '), re.IGNORECASE)
                 query = sql_match.group(0).split('```')[0].strip()
-                query = query.replace(" tu_tabla", " kinesis").replace(" tabla", " kinesis")
-                if not query.endswith(';'): query += ';'
-                
-                # Ejecutar
+                if not query.endswith(';'):
+                    query += ';'
+
                 df_res = sql_db.execute(query).df()
-                
-                # Narrativa natural
+
+                # FORMATO MONETARIO
+                for col in df_res.columns:
+                    if pd.api.types.is_numeric_dtype(df_res[col]):
+                        df_res[col] = df_res[col].apply(lambda x: int(x))
+
                 narrativa = get_ai_response(user_input, df_data=df_res)
                 st.markdown(narrativa)
-                
+
                 msg_data = {"role": "assistant", "content": narrativa}
-                
-                # Visualización
+
                 if len(df_res) == 1 and len(df_res.columns) == 1:
                     val = df_res.iloc[0,0]
-
-                    # Formato dólares sin decimales
                     if isinstance(val, (int, float)):
                         val = "${:,.0f}".format(val)
                     st.markdown(f'<div class="kpi-box"><div class="kpi-value">{val}</div></div>', unsafe_allow_html=True)
                     msg_data.update({"viz": val, "viz_type": "kpi"})
+
                 elif len(df_res) > 0:
-                    
-                    # Formatear columnas numéricas como dólares sin decimales
-                    for col in df_res.columns:
-                        if pd.api.types.is_numeric_dtype(df_res[col]):
-                            df_res[col] = df_res[col].apply(lambda x: int(x))
-                    
-                    fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], template="plotly_dark", color_discrete_sequence=['#58a6ff'])
-                    fig.update_layout(yaxis_tickprefix="$",yaxis_tickformat=",.0f")
+                    fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1],
+                                 template="plotly_dark",
+                                 color_discrete_sequence=['#58a6ff'])
+                    fig.update_layout(yaxis_tickprefix="$", yaxis_tickformat=",.0f")
                     st.plotly_chart(fig, use_container_width=True)
                     msg_data.update({"viz": fig, "viz_type": "chart"})
-                
+
                 st.session_state.messages.append(msg_data)
-                
-            except Exception as e:
+
+            except:
                 st.error("Tuve un problema técnico procesando esos datos.")
         else:
             st.markdown(initial_res)
