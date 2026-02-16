@@ -14,27 +14,6 @@ from langchain_core.documents import Document
 # --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
 
-# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
-def check_password():
-    def password_entered():
-        if st.session_state["password"] == "Kinesis2026": # Tu clave
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]
-        else:
-            st.session_state["password_correct"] = False
-
-    if "password_correct" not in st.session_state:
-        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
-        st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
-        return False
-    elif not st.session_state["password_correct"]:
-        st.text_input("Clave incorrecta. Intenta de nuevo", type="password", on_change=password_entered, key="password")
-        st.error("😕 Ups, esa no es la clave.")
-        return False
-    return True
-
-if not check_password():
-    st.stop()
 
 # --- 3. CONFIGURACIÓN DE RECURSOS ---
 load_dotenv()
