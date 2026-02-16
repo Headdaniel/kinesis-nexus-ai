@@ -201,7 +201,7 @@ def get_ai_response(prompt, context="", df_data=None):
         content = prompt
 
     res = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
         messages=[
             {"role": "system", "content": sys_msg},
             {"role": "user", "content": content}
