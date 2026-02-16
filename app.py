@@ -202,8 +202,7 @@ def get_ai_response(prompt, context="", df_data=None):
         sys_msg = "Eres un analista experto. Resume los datos en una frase natural y breve. Sé directo."
         content = f"Datos obtenidos: {df_data.to_string()}\nPregunta: {prompt}"
     else:
-        else:
-            sys_msg = f"""Eres el Analista Principal de Kinesis.
+        sys_msg = f"""Eres el Analista Principal de Kinesis.
 
             REGLAS IMPORTANTES:
             1. Si la respuesta está explícitamente en el CONTEXTO proporcionado, debes usarlo como fuente principal.
@@ -217,7 +216,7 @@ def get_ai_response(prompt, context="", df_data=None):
             CONTEXTO DISPONIBLE:    
             {context}
             """
-                content = prompt
+              content = prompt
 
 
     res = client.chat.completions.create(
