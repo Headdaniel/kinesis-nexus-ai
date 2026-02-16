@@ -40,7 +40,7 @@ if not check_password():
 load_dotenv()
 API_KEY = st.secrets["GROQ_API_KEY"] if "GROQ_API_KEY" in st.secrets else os.getenv("GROQ_API_KEY")
 client = Groq(api_key=API_KEY)
-DB_PATH = "data/vectors"
+DB_PATH = "data/vectors_v2"
 CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
 CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
 
