@@ -1,0 +1,19 @@
+
+    RADIOGRAFÍA DEL SISTEMA KINESIS NEXUS
+    =====================================
+    PROPÓSITO:
+    Sistema de Inteligencia Generativa para el análisis de datos empresariales (CSV) 
+    y consulta de metodología teórica (PDF/Vectores).
+
+    ESTRUCTURA DE ARCHIVOS:
+    1. app.py: Cerebro principal. Interfaz Streamlit, lógica de IA y conexión a datos.
+    2. requirements.txt: Lista de ingredientes (librerías) para que funcione en la nube.
+    3. .env: (Local) Guarda las llaves secretas como la API KEY de Groq.
+    4. data/raw/Base_maestra_kinesis.csv: La base de datos cruda con información de empresas.
+    5. data/vectors/: Memoria a largo plazo (ChromaDB) donde vive el conocimiento del PDF.
+    
+    FLUJO DE DATOS:
+    Usuario -> Pregunta -> Identificación de Intención (SQL vs Texto) -> 
+    Si es Dato -> DuckDB ejecuta SQL -> Gráfico Plotly -> Respuesta Natural.
+    Si es Teoría -> Búsqueda Vectorial -> LLM Llama-3 -> Respuesta Natural.
+    
