@@ -190,6 +190,30 @@ def load_all():
 # Intentar cargar todo
 try:
     v_db, sql_db, esquema_cols = load_all()
+    # --- DEBUG: Verificar documentos en Chroma ---
+st.write("🔎 DEBUG - Total documentos en Chroma:")
+try:
+    all_docs = v_db.get()
+    total_docs = len(all_docs["documents"])
+    st.write("Total documentos almacenados:", total_docs)
+
+    # Mostrar solo los que vienen del CSV
+    csv_docs = [
+        (doc, meta)
+        for doc, meta in zip(all_docs["documents"], all_docs["metadatas"])
+        if meta.get("source") == "context_csv"
+    ]
+
+    st.write("Documentos provenientes del CSV:", len(csv_docs))
+
+    if csv_docs:
+        st.write("Ejemplo de documento CSV vectorizado:")
+        st.write(csv_docs[0][0])
+        st.write("Metadata:", csv_docs[0][1])
+
+except Exception as e:
+    st.write("Error verificando Chroma:", e)
+
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
