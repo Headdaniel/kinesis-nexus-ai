@@ -6,3 +6,5 @@ plotly
 python-dotenv
 langchain-huggingface
 langchain-chroma
+sentence-transformers
+torch
