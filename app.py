@@ -14,27 +14,7 @@ from langchain_core.documents import Document
 # --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
 
-# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
-def check_password():
-    def password_entered():
-        if st.session_state["password"] == "Kinesis2026": # Tu clave
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]
-        else:
-            st.session_state["password_correct"] = False
 
-    if "password_correct" not in st.session_state:
-        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
-        st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
-        return False
-    elif not st.session_state["password_correct"]:
-        st.text_input("Clave incorrecta. Intenta de nuevo", type="password", on_change=password_entered, key="password")
-        st.error("😕 Ups, esa no es la clave.")
-        return False
-    return True
-
-if not check_password():
-    st.stop()
 
 # --- 3. CONFIGURACIÓN DE RECURSOS ---
 load_dotenv()
@@ -79,59 +59,42 @@ st.markdown("""
 
     footer {display: none;}
 
-    [data-testid="stBottom"], 
-    [data-testid="stBottomBlockContainer"] { 
-        background-color: #002f6cff !important; 
+    .logo-container {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
     }
 
-    [data-testid="stChatInput"] { 
-        max-width: 800px; 
-        margin: 0 auto; 
-        background-color: #002f6cff !important; 
+    .logo-container img {
+        width: 90px;
     }
 
-    [data-testid="stChatInput"] textarea { 
-        background-color: #002f6cff !important; 
-        color: #c9e0ffff !important; 
-        border: 1px solid #c9e0ffff !important; 
-    }
-
-    .stChatMessage { 
-        background-color: #002f6cff !important; 
-        border-radius: 15px !important; 
-        border: 1px solid #c9e0ffff !important; 
-    }
-
-    .stMarkdown, 
-    p, li, span, 
-    h1, h2, h3, 
-    label, 
-    div, 
-    textarea, 
-    input { 
-        color: #c9e0ffff !important; 
-    }
-
-    .kpi-box {
-    background-color: #001f4d !important;  /* Más oscuro que el texto */
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #c9e0ffff;
-    }
-
-
-    .kpi-value { 
-        font-size: 3.8rem; 
-        font-weight: 800; 
-        color: #c9e0ffff; 
-    }
-    pre, code {
-    background-color: #001f4d !important;
-    color: #c9e0ffff !important;
+    @media (max-width: 768px) {
+        .logo-container {
+            position: relative;
+            left: 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .logo-container img {
+            width: 70px;
+        }
     }
 
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <div class="logo-container">
+        <img src="data:image/png;base64,{}">
+    </div>
+    """.format(
+        __import__("base64").b64encode(open("Logo Kinesis_Negativo.png", "rb").read()).decode()
+    ),
+    unsafe_allow_html=True
+)
 
 
 st.markdown(
@@ -258,10 +221,21 @@ if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
                 # Visualización
                 if len(df_res) == 1 and len(df_res.columns) == 1:
                     val = df_res.iloc[0,0]
+
+                    # Formato dólares sin decimales
+                    if isinstance(val, (int, float)):
+                        val = "${:,.0f}".format(val)
                     st.markdown(f'<div class="kpi-box"><div class="kpi-value">{val}</div></div>', unsafe_allow_html=True)
                     msg_data.update({"viz": val, "viz_type": "kpi"})
                 elif len(df_res) > 0:
+                    
+                    # Formatear columnas numéricas como dólares sin decimales
+                    for col in df_res.columns:
+                        if pd.api.types.is_numeric_dtype(df_res[col]):
+                            df_res[col] = df_res[col].apply(lambda x: int(x))
+                    
                     fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], template="plotly_dark", color_discrete_sequence=['#58a6ff'])
+                    fig.update_layout(yaxis_tickprefix="$",yaxis_tickformat=",.0f")
                     st.plotly_chart(fig, use_container_width=True)
                     msg_data.update({"viz": fig, "viz_type": "chart"})
                 
