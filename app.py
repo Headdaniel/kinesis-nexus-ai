@@ -202,29 +202,30 @@ def get_ai_response(prompt, context="", df_data=None):
         sys_msg = "Eres un analista experto. Resume los datos en una frase natural y breve. Sé directo."
         content = f"Datos obtenidos: {df_data.to_string()}\nPregunta: {prompt}"
     else:
-        sys_msg = f"""Eres el Analista Principal de Kinesis.
-
-            REGLAS IMPORTANTES:
-            1. Si la respuesta está explícitamente en el CONTEXTO proporcionado, debes usarlo como fuente principal.
-            2. No inventes ni infieras si el contexto contiene la respuesta.
-            3. Solo usa SQL si la pregunta requiere cálculos sobre la tabla 'kinesis'.
-            4. Si la pregunta es conceptual o programática, responde usando el CONTEXTO.
-
-            TABLA DISPONIBLE: 'kinesis'
-            Esquema: {esquema_cols}
-
-            CONTEXTO DISPONIBLE:    
-            {context}
-            """
-                    content = prompt
-
+        sys_msg = (
+            "Eres el Analista Principal de Kinesis.\n\n"
+            "REGLAS IMPORTANTES:\n"
+            "1. Si la respuesta está explícitamente en el CONTEXTO proporcionado, debes usarlo como fuente principal.\n"
+            "2. No inventes ni infieras si el contexto contiene la respuesta.\n"
+            "3. Solo usa SQL si la pregunta requiere cálculos sobre la tabla 'kinesis'.\n"
+            "4. Si la pregunta es conceptual o programática, responde usando el CONTEXTO.\n\n"
+            "TABLA DISPONIBLE: 'kinesis'\n"
+            f"Esquema: {esquema_cols}\n\n"
+            "CONTEXTO DISPONIBLE:\n"
+            f"{context}\n"
+        )
+        content = prompt
 
     res = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": content}],
+        messages=[
+            {"role": "system", "content": sys_msg},
+            {"role": "user", "content": content}
+        ],
         temperature=0.1
     )
     return res.choices[0].message.content
+
 
 # --- 6. INTERFAZ DE CHAT ---
 if "messages" not in st.session_state:
