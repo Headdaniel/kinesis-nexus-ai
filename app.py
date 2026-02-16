@@ -42,83 +42,22 @@ DB_PATH = "data/vectors"
 CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
 
 # Estilo CSS para modo oscuro total y centrado
-# Reemplaza tu bloque de estilo CSS por este:
-st.markdown(f"""
+st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700&family=Sora:wght@600;800&display=swap');
-
-    /* Fondo y texto general */
-    .stApp {{ 
-        background-color: #002f6cff !important; 
-    }}
-    
-    html, body, [class*="css"] {{
-        font-family: 'Manrope', sans-serif !important;
-        color: #c9e0ffff !important;
-    }}
-
-    /* Títulos y Bienvenida en Sora */
-    h1, h2, h3, .sora-font {{
-        font-family: 'Sora', sans-serif !important;
-        font-weight: 800 !important;
-        color: #c9e0ffff !important;
-    }}
-
-    /* Burbujas de chat: Alineación */
-    .stChatMessage {{
-        background-color: transparent !important;
-    }}
-
-    /* Mensajes del Usuario (Derecha) */
-    [data-testid="stChatMessage"]:nth-child(odd) {{
-        flex-direction: row-reverse !important;
-        text-align: right !important;
-    }}
-    [data-testid="stChatMessage"]:nth-child(odd) .stMarkdown {{
-        background-color: #ba0c2fff !important; /* Fucsia */
-        padding: 10px 15px;
-        border-radius: 15px 15px 0px 15px;
-        display: inline-block;
-    }}
-
-    /* Mensajes de la IA (Izquierda) */
-    [data-testid="stChatMessage"]:nth-child(even) {{
-        text-align: left !important;
-    }}
-    [data-testid="stChatMessage"]:nth-child(even) .stMarkdown {{
-        background-color: #002060ff !important; /* Azul encendido */
-        padding: 10px 15px;
-        border-radius: 15px 15px 15px 0px;
-        display: inline-block;
-    }}
-
-    /* Ajuste del logo y entrada de texto */
-    [data-testid="stChatInput"] {{
-        max-width: 800px;
-        margin: 0 auto;
-    }}
+    .stApp { background-color: #0f1116 !important; }
+    .block-container { max-width: 800px; padding-top: 2rem; }
+    footer {display: none;}
+    [data-testid="stBottom"], [data-testid="stBottomBlockContainer"] { background-color: #0f1116 !important; }
+    [data-testid="stChatInput"] { max-width: 800px; margin: 0 auto; background-color: #0f1116 !important; }
+    [data-testid="stChatInput"] textarea { background-color: #21262d !important; color: #ffffff !important; border: 1px solid #30363d !important; }
+    .stChatMessage { background-color: #161b22 !important; border-radius: 15px !important; border: 1px solid #30363d !important; }
+    .stMarkdown, p, li, span, h1, h2, h3, label { color: #ffffff !important; }
+    .kpi-box { background: #1f242c; padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #58a6ff; margin: 15px 0; }
+    .kpi-value { font-size: 3.8rem; font-weight: 800; color: #58a6ff; }
     </style>
     """, unsafe_allow_html=True)
 
-# Header: Logo y Título
-col_logo, col_vacio = st.columns([1, 4])
-with col_logo:
-    if os.path.exists("Logo Kinesis_Negativo.png"):
-        st.image("Logo Kinesis_Negativo.png", width=120)
-
-# Saludo de Bienvenida (Solo aparece si no hay mensajes)
-if len(st.session_state.messages) == 0:
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown(f"""
-        <div style="text-align: center;">
-            <h1 class="sora-font" style="color: #c9e0ffff; font-size: 2.5rem;">
-                ¡Hola, ChangeLabiano!
-            </h1>
-            <p style="font-size: 1.2rem; font-family: 'Manrope'; color: #c9e0ffff;">
-                Soy el experto en el proyecto Kinesis. ¿En qué te puedo ayudar hoy?
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
+st.title("🚀 Kinesis: Sistema de Inteligencia Generativa")
 
 # --- 4. CARGA DE DATOS (CON CACHÉ Y SPINNER) ---
 @st.cache_resource
@@ -182,56 +121,44 @@ if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
         st.markdown(user_input)
 
     with st.chat_message("assistant"):
-        # 1. El Spinner crea el efecto de "IA escribiendo/pensando"
-        with st.spinner("Consultando fuentes de Kinesis..."):
-            # Buscar en PDF
-            docs = v_db.similarity_search(user_input, k=2)
-            context_text = "\n".join([d.page_content for d in docs])
-            
-            # Fuente por defecto (Metodología)
-            fuente = "Documentación Metodológica (PDF)"
-            
-            # Obtener respuesta inicial
-            initial_res = get_ai_response(user_input, context_text)
-            
-            if "SELECT" in initial_res.upper():
-                try:
-                    # Si entra aquí, la fuente cambia al CSV
-                    fuente = "Base_maestra_kinesis.csv"
-                    
-                    sql_match = re.search(r'SELECT.*', initial_res.replace('\n', ' '), re.IGNORECASE)
-                    query = sql_match.group(0).split('```')[0].strip().replace(" tu_tabla", " kinesis").replace(" tabla", " kinesis")
-                    if not query.endswith(';'): query += ';'
-                    
-                    df_res = sql_db.execute(query).df()
-                    narrativa = get_ai_response(user_input, df_data=df_res)
-                    
-                    # Mostramos respuesta + la fuente
-                    st.markdown(narrativa)
-                    st.markdown(f"<small>📚 **Fuente:** {fuente}</small>", unsafe_allow_html=True)
-                    
-                    msg_data = {"role": "assistant", "content": f"{narrativa}\n\n📚 **Fuente:** {fuente}"}
-                    
-                    if len(df_res) == 1 and len(df_res.columns) == 1:
-                        val = df_res.iloc[0,0]
-                        st.markdown(f'<div class="kpi-box"><div class="kpi-value">{val}</div></div>', unsafe_allow_html=True)
-                        msg_data.update({"viz": val, "viz_type": "kpi"})
-                    elif len(df_res) > 0:
-                        # Gráfico con tus colores corporativos
-                        fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], 
-                                     template="plotly_dark", 
-                                     color_discrete_sequence=['#ba0c2fff', '#002060ff', '#002f6cff'])
-                        
-                        fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
-                        st.plotly_chart(fig, use_container_width=True)
-                        msg_data.update({"viz": fig, "viz_type": "chart"})
-                    
-                    st.session_state.messages.append(msg_data)
-                    
-                except Exception as e:
-                    st.error("Tuve un problema técnico procesando esos datos.")
-            else:
-                # Respuesta de texto (PDF) + su fuente
-                st.markdown(initial_res)
-                st.markdown(f"<small>📚 **Fuente:** {fuente}</small>", unsafe_allow_html=True)
-                st.session_state.messages.append({"role": "assistant", "content": f"{initial_res}\n\n📚 **Fuente:** {fuente}"})
+        # Buscar en PDF
+        docs = v_db.similarity_search(user_input, k=2)
+        context_text = "\n".join([d.page_content for d in docs])
+        
+        # Obtener respuesta inicial
+        initial_res = get_ai_response(user_input, context_text)
+        
+        if "SELECT" in initial_res.upper():
+            try:
+                # Extraer y limpiar SQL
+                sql_match = re.search(r'SELECT.*', initial_res.replace('\n', ' '), re.IGNORECASE)
+                query = sql_match.group(0).split('```')[0].strip()
+                query = query.replace(" tu_tabla", " kinesis").replace(" tabla", " kinesis")
+                if not query.endswith(';'): query += ';'
+                
+                # Ejecutar
+                df_res = sql_db.execute(query).df()
+                
+                # Narrativa natural
+                narrativa = get_ai_response(user_input, df_data=df_res)
+                st.markdown(narrativa)
+                
+                msg_data = {"role": "assistant", "content": narrativa}
+                
+                # Visualización
+                if len(df_res) == 1 and len(df_res.columns) == 1:
+                    val = df_res.iloc[0,0]
+                    st.markdown(f'<div class="kpi-box"><div class="kpi-value">{val}</div></div>', unsafe_allow_html=True)
+                    msg_data.update({"viz": val, "viz_type": "kpi"})
+                elif len(df_res) > 0:
+                    fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], template="plotly_dark", color_discrete_sequence=['#58a6ff'])
+                    st.plotly_chart(fig, use_container_width=True)
+                    msg_data.update({"viz": fig, "viz_type": "chart"})
+                
+                st.session_state.messages.append(msg_data)
+                
+            except Exception as e:
+                st.error("Tuve un problema técnico procesando esos datos.")
+        else:
+            st.markdown(initial_res)
+            st.session_state.messages.append({"role": "assistant", "content": initial_res})
