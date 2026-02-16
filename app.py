@@ -191,7 +191,7 @@ def get_ai_response(prompt, context="", df_data=None):
             "REGLAS IMPORTANTES:\n"
             "1. Si la respuesta está explícitamente en el CONTEXTO proporcionado, debes usarlo como fuente principal.\n"
             "2. No inventes ni infieras si el contexto contiene la respuesta.\n"
-            "3. Solo usa SQL si la pregunta requiere cálculos sobre la tabla 'kinesis'.\n"
+            "3. Si la pregunta menciona ingresos, ventas, montos, totales, sumas, años o países, DEBES generar una consulta SQL válida usando la tabla 'kinesis'. Siempre intenta generar el SQL antes de decir que no existe información. No expliques. Si es cálculo, responde SOLO con el SQL en ```sql```.'.\n"
             "4. Si la pregunta es conceptual o programática, responde usando el CONTEXTO.\n\n"
             "TABLA DISPONIBLE: 'kinesis'\n"
             f"Esquema: {esquema_cols}\n\n"
