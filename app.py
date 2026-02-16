@@ -9,20 +9,99 @@ from groq import Groq
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
-# --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
+# --- 1. CONFIGURACIÓN DE PÁGINA (ESTO NO SE TOCA) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
 
-# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
+# ==========================================
+# SECCIÓN DE ESTILO Y FORMA (LO ÚNICO QUE CAMBIÉ)
+# ==========================================
+COLOR_FONDO = "#002f6cff"      # Azul Opaco
+COLOR_TEXTO = "#c9e0ffff"      # Celeste
+COLOR_USUARIO = "#ba0c2fff"    # Fucsia
+COLOR_IA = "#002060ff"         # Azul Encendido
+
+st.markdown(f"""
+    <style>
+    /* Importar Fuentes */
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700&family=Sora:wght@400;700&display=swap');
+
+    /* 1. FONDO Y TIPOGRAFÍA GLOBAL */
+    .stApp {{ background-color: {COLOR_FONDO} !important; }}
+    html, body, p, li, span, label, h1, h2, h3, div, .stMarkdown {{
+        font-family: 'Manrope', sans-serif !important;
+        color: {COLOR_TEXTO} !important;
+    }}
+    h1, h2, h3 {{ font-family: 'Sora', sans-serif !important; }}
+
+    /* 2. BARRA DE INPUT (ANCHO REDUCIDO) */
+    [data-testid="stChatInput"] {{
+        max-width: 800px !important;
+        margin: 0 auto !important;
+        background-color: {COLOR_FONDO} !important;
+    }}
+    [data-testid="stChatInput"] textarea {{
+        background-color: {COLOR_IA} !important;
+        color: {COLOR_TEXTO} !important;
+        border: 1px solid {COLOR_TEXTO} !important;
+    }}
+    [data-testid="stBottom"] {{ background-color: {COLOR_FONDO} !important; border-top: 1px solid {COLOR_IA}; }}
+
+    /* 3. ALINEACIÓN DEL CHAT */
+    .stChatMessage {{ background-color: transparent !important; border: none !important; }}
+    
+    /* USUARIO (Derecha - Fucsia) */
+    [data-testid="stChatMessage"]:nth-child(odd) {{
+        flex-direction: row-reverse !important;
+        text-align: right !important;
+    }}
+    [data-testid="stChatMessage"]:nth-child(odd) .stMarkdown {{
+        background-color: {COLOR_USUARIO} !important;
+        text-align: right !important;
+        border-radius: 15px 15px 0 15px;
+        padding: 10px 15px;
+        display: inline-block;
+    }}
+
+    /* IA (Izquierda - Azul) */
+    [data-testid="stChatMessage"]:nth-child(even) {{
+        flex-direction: row !important;
+        text-align: left !important;
+    }}
+    [data-testid="stChatMessage"]:nth-child(even) .stMarkdown {{
+        background-color: {COLOR_IA} !important;
+        text-align: left !important;
+        border-radius: 15px 15px 15px 0;
+        padding: 10px 15px;
+        display: inline-block;
+    }}
+
+    /* 4. ELEMENTOS EXTRA (KPIs y Tablas) */
+    .kpi-box {{ background: {COLOR_IA}; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid {COLOR_TEXTO}; margin: 10px 0; }}
+    .kpi-value {{ font-family: 'Sora'; font-size: 3rem; font-weight: bold; color: {COLOR_TEXTO}; }}
+    
+    /* Ocultar footer */
+    footer {{display: none;}}
+    </style>
+    """, unsafe_allow_html=True)
+
+# ==========================================
+# LÓGICA DEL SISTEMA (INTACTA)
+# ==========================================
+
+# --- 2. SEGURIDAD ---
 def check_password():
     def password_entered():
-        if st.session_state["password"] == "Kinesis2026": # Tu clave
+        if st.session_state["password"] == "Kinesis2026":
             st.session_state["password_correct"] = True
             del st.session_state["password"]
         else:
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
+        # Puse el logo también aquí para que se vea bonito al entrar
+        if os.path.exists("Logo Kinesis_Negativo.png"):
+            st.image("Logo Kinesis_Negativo.png", width=120)
+        st.markdown("<h1 style='text-align: center;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
         st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
@@ -41,33 +120,21 @@ client = Groq(api_key=API_KEY)
 DB_PATH = "data/vectors"
 CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
 
-# Estilo CSS para modo oscuro total y centrado
-st.markdown("""
-    <style>
-    .stApp { background-color: #0f1116 !important; }
-    .block-container { max-width: 800px; padding-top: 2rem; }
-    footer {display: none;}
-    [data-testid="stBottom"], [data-testid="stBottomBlockContainer"] { background-color: #0f1116 !important; }
-    [data-testid="stChatInput"] { max-width: 800px; margin: 0 auto; background-color: #0f1116 !important; }
-    [data-testid="stChatInput"] textarea { background-color: #21262d !important; color: #ffffff !important; border: 1px solid #30363d !important; }
-    .stChatMessage { background-color: #161b22 !important; border-radius: 15px !important; border: 1px solid #30363d !important; }
-    .stMarkdown, p, li, span, h1, h2, h3, label { color: #ffffff !important; }
-    .kpi-box { background: #1f242c; padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #58a6ff; margin: 15px 0; }
-    .kpi-value { font-size: 3.8rem; font-weight: 800; color: #58a6ff; }
-    </style>
-    """, unsafe_allow_html=True)
+# --- HEADER CON LOGO Y TÍTULO ---
+col1, col2 = st.columns([1, 8])
+with col1:
+    if os.path.exists("Logo Kinesis_Negativo.png"):
+        st.image("Logo Kinesis_Negativo.png", width=80)
+with col2:
+    st.markdown('<div style="margin-top: 15px; font-size: 20px; font-family: Sora; font-weight: bold;">Sistema de Inteligencia Generativa</div>', unsafe_allow_html=True)
 
-st.title("🚀 Kinesis: Sistema de Inteligencia Generativa")
-
-# --- 4. CARGA DE DATOS (CON CACHÉ Y SPINNER) ---
+# --- 4. CARGA DE DATOS ---
 @st.cache_resource
 def load_all():
     with st.spinner("Cargando base de conocimientos..."):
-        # Modelos para PDF
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         v_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
         
-        # Base de datos SQL
         con = duckdb.connect(database=':memory:')
         df = pd.read_csv(CSV_FILE)
         df.columns = [re.sub(r'[^\w]', '_', c.lower().strip().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')) for c in df.columns]
@@ -75,14 +142,13 @@ def load_all():
         esquema = con.execute("DESCRIBE kinesis").df()[['column_name', 'column_type']].to_string()
         return v_db, con, esquema
 
-# Intentar cargar todo
 try:
     v_db, sql_db, esquema_cols = load_all()
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
 
-# --- 5. FUNCIONES DE IA ---
+# --- 5. FUNCIONES DE IA (INTACTAS) ---
 def get_ai_response(prompt, context="", df_data=None):
     if df_data is not None:
         sys_msg = "Eres un analista experto. Resume los datos en una frase natural y breve. Sé directo."
@@ -106,7 +172,16 @@ def get_ai_response(prompt, context="", df_data=None):
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mostrar historial
+# MENSAJE DE BIENVENIDA (SOLO SI EL CHAT ESTÁ VACÍO)
+if len(st.session_state.messages) == 0:
+    st.markdown(f"""
+    <div style="text-align: center; margin-top: 40px; font-size: 1.2rem;">
+        <b>¡Hola, ChangeLabiano!</b><br>
+        Soy el experto en el proyecto Kinesis. ¿En qué te puedo ayudar hoy?
+    </div>
+    """, unsafe_allow_html=True)
+
+# MOSTRAR HISTORIAL
 for m in st.session_state.messages:
     with st.chat_message(m["role"]):
         st.markdown(m["content"])
@@ -114,7 +189,7 @@ for m in st.session_state.messages:
             if m["viz_type"] == "chart": st.plotly_chart(m["viz"], use_container_width=True)
             elif m["viz_type"] == "kpi": st.markdown(f'<div class="kpi-box"><div class="kpi-value">{m["viz"]}</div></div>', unsafe_allow_html=True)
 
-# Entrada del usuario
+# ENTRADA DE USUARIO
 if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
@@ -151,7 +226,13 @@ if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
                     st.markdown(f'<div class="kpi-box"><div class="kpi-value">{val}</div></div>', unsafe_allow_html=True)
                     msg_data.update({"viz": val, "viz_type": "kpi"})
                 elif len(df_res) > 0:
-                    fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], template="plotly_dark", color_discrete_sequence=['#58a6ff'])
+                    # AQUÍ SOLO CAMBIÉ LA PALETA DE COLORES AL GRAFICO PARA QUE COINCIDA
+                    fig = px.bar(df_res, x=df_res.columns[0], y=df_res.columns[1], 
+                                 template="plotly_dark", 
+                                 color_discrete_sequence=[COLOR_USUARIO, COLOR_IA, COLOR_TEXTO])
+                    # Fondo del gráfico transparente para que se vea el azul de la app
+                    fig.update_layout(paper_bgcolor=COLOR_FONDO, plot_bgcolor=COLOR_FONDO, font_family="Manrope")
+                    
                     st.plotly_chart(fig, use_container_width=True)
                     msg_data.update({"viz": fig, "viz_type": "chart"})
                 
