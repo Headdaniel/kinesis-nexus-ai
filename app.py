@@ -112,7 +112,7 @@ st.markdown("""
 
 st.markdown(
     """
-    <div style="text-align: center; margin-top: 40px;">
+    <div style="text-align: center; margin-top: 120px;">
         <img src="data:image/png;base64,{}" width="60" style="margin-bottom: 20px;">
         <h1 style="margin-bottom: 10px;">
             ¡Hola, ChangeLab!
