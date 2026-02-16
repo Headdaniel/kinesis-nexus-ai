@@ -101,6 +101,11 @@ st.markdown("""
         font-weight: 800; 
         color: #c9e0ffff; 
     }
+    pre, code {
+    background-color: #001f4d !important;
+    color: #c9e0ffff !important;
+    }
+
     </style>
     """, unsafe_allow_html=True)
 
