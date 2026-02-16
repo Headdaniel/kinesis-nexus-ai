@@ -141,6 +141,8 @@ def load_all():
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         v_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
         
+        ingest_context_csv_to_chroma(v_db, CONTEXT_CSV_FILE)
+
         # Base de datos SQL
         con = duckdb.connect(database=':memory:')
         df = pd.read_csv(CSV_FILE)
@@ -149,13 +151,9 @@ def load_all():
         esquema = con.execute("DESCRIBE kinesis").df()[['column_name', 'column_type']].to_string()
         return v_db, con, esquema
 
-
 # Intentar cargar todo
 try:
     v_db, sql_db, esquema_cols = load_all()
-    v_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
-
-ingest_context_csv_to_chroma(v_db, CONTEXT_CSV_FILE)
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
