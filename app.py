@@ -50,17 +50,19 @@ def ingest_context_csv_to_chroma(v_db, csv_path: str):
     full_text = ""
 
     for _, row in df_ctx.iterrows():
-        key = str(row.iloc[0]).strip()
-        value = str(row.iloc[1]).strip() if len(row) > 1 else ""
-        full_text += f"{key}\n{value}\n\n"
+        for col in df_ctx.columns:
+            value = str(row[col]).strip()
+            if value and value.lower() != "nan":
+                full_text += value + "\n"
+        full_text += "\n"
 
     doc = Document(
         page_content=full_text,
         metadata={"source": "context_csv_full"}
     )
 
-    v_db.add_documents([doc])
 
+    v_db.add_documents([doc])
 
 
 # Estilo CSS para modo oscuro total y centrado
@@ -230,11 +232,6 @@ if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
     with st.chat_message("assistant"):
         # Buscar en PDF
         docs = v_db.similarity_search(user_input, k=6)
-        st.write("----- DOCUMENTOS RECUPERADOS -----")
-        for d in docs:
-            st.write("METADATA:", d.metadata)
-            st.write(d.page_content)
-            st.write("---------------")
 
         context_text = "\n".join([d.page_content for d in docs])
         
