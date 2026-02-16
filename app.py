@@ -194,25 +194,7 @@ try:
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
-# --- DEBUG: Verificar documentos en Chroma ---
-st.write("🔎 DEBUG - Total documentos en Chroma:")
 
-all_docs = v_db.get()
-total_docs = len(all_docs["documents"])
-st.write("Total documentos almacenados:", total_docs)
-
-csv_docs = [
-    (doc, meta)
-    for doc, meta in zip(all_docs["documents"], all_docs["metadatas"])
-    if meta.get("source") == "context_csv"
-]
-
-st.write("Documentos provenientes del CSV:", len(csv_docs))
-
-if csv_docs:
-    st.write("Ejemplo de documento CSV vectorizado:")
-    st.write(csv_docs[0][0])
-    st.write("Metadata:", csv_docs[0][1])
 
 # --- 5. FUNCIONES DE IA ---
 def get_ai_response(prompt, context="", df_data=None):
