@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from groq import Groq
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+from langchain_core.documents import Document
+
 
 # --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
@@ -40,6 +42,8 @@ API_KEY = st.secrets["GROQ_API_KEY"] if "GROQ_API_KEY" in st.secrets else os.get
 client = Groq(api_key=API_KEY)
 DB_PATH = "data/vectors"
 CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
+CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
+
 
 # Estilo CSS para modo oscuro total y centrado
 st.markdown("""
@@ -145,9 +149,13 @@ def load_all():
         esquema = con.execute("DESCRIBE kinesis").df()[['column_name', 'column_type']].to_string()
         return v_db, con, esquema
 
+
 # Intentar cargar todo
 try:
     v_db, sql_db, esquema_cols = load_all()
+    v_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
+
+ingest_context_csv_to_chroma(v_db, CONTEXT_CSV_FILE)
 except Exception as e:
     st.error(f"Error crítico al iniciar: {e}")
     st.stop()
