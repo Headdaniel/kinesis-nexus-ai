@@ -46,39 +46,21 @@ CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
 
 def ingest_context_csv_to_chroma(v_db, csv_path: str):
     df_ctx = pd.read_csv(csv_path)
-    cols = df_ctx.columns.tolist()
 
-    if len(cols) < 2:
-        raise ValueError("El CSV de contexto debe tener al menos 2 columnas.")
+    full_text = ""
 
-    title_col = cols[0]
-    content_cols = cols[1:]
+    for _, row in df_ctx.iterrows():
+        key = str(row.iloc[0]).strip()
+        value = str(row.iloc[1]).strip() if len(row) > 1 else ""
+        full_text += f"{key}\n{value}\n\n"
 
-    docs = []
-    for i, row in df_ctx.iterrows():
-        titulo = str(row[title_col]).strip()
-        contenido = " ".join(
-            [str(row[c]).strip() for c in content_cols if pd.notna(row[c])]
-        ).strip()
+    doc = Document(
+        page_content=full_text,
+        metadata={"source": "context_csv_full"}
+    )
 
-        text = f"{titulo}\n\n{contenido}".strip()
+    v_db.add_documents([doc])
 
-        if not text:
-            continue
-
-        docs.append(
-            Document(
-                page_content=text,
-                metadata={
-                    "source": "context_csv",
-                    "row": int(i),
-                    "title": titulo
-                }
-            )
-        )
-
-    if docs:
-        v_db.add_documents(docs)
 
 
 # Estilo CSS para modo oscuro total y centrado
