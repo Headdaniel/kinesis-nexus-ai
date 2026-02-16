@@ -248,6 +248,12 @@ if user_input := st.chat_input("¿Qué quieres consultar hoy?"):
     with st.chat_message("assistant"):
         # Buscar en PDF
         docs = v_db.similarity_search(user_input, k=6)
+        st.write("----- DOCUMENTOS RECUPERADOS -----")
+        for d in docs:
+            st.write("METADATA:", d.metadata)
+            st.write(d.page_content)
+            st.write("---------------")
+
         context_text = "\n".join([d.page_content for d in docs])
         
         # Obtener respuesta inicial
