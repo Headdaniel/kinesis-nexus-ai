@@ -216,7 +216,7 @@ def get_ai_response(prompt, context="", df_data=None):
             CONTEXTO DISPONIBLE:    
             {context}
             """
-              content = prompt
+                    content = prompt
 
 
     res = client.chat.completions.create(
