@@ -154,7 +154,7 @@ st.markdown("""
 
     .logo-fixed {
         position: relative !important;   /* ← ya NO es fixed */
-        top: 0 !important;
+        top: 50 !important;
         left: 50% !important;
         transform: translateX(-50%);
         margin-top: 90px;   /* separación de la barra superior */
