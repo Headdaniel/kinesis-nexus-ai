@@ -24,7 +24,8 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Kinesis Nexus</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Partenón IA</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center; color: #c9e0ff; font-weight: normal;'>Prototipo del Sistema Inteligente del proyecto Kinesis</h3>", unsafe_allow_html=True)
         st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
