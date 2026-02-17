@@ -24,6 +24,18 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
+
+        import base64
+        with open("Logo Kinesis_Negativo.png", "rb") as f:
+            logo_base64 = base64.b64encode(f.read()).decode()
+
+        st.markdown(
+            f"<div style='text-align:center; margin-bottom:20px;'>"
+            f"<img src='data:image/png;base64,{logo_base64}' width='110'>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+
         st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Partenón IA</h1>", unsafe_allow_html=True)
         st.markdown("<h3 style='text-align: center; color: #c9e0ff; font-weight: normal;'>Prototipo del Sistema Inteligente del proyecto Kinesis</h3>", unsafe_allow_html=True)
         st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
@@ -130,6 +142,21 @@ st.markdown("""
     background-color: #001f4d !important;
     color: #c9e0ffff !important;
     }
+
+/* Quitar icono de ancla en headers */
+h1 a {
+    display: none !important;
+}
+
+/* Fondo igual al chat */
+.stApp {
+    background-color: #002f6c !important;
+}
+
+h1, h3, label {
+    color: #ffffff !important;
+}
+
 
     </style>
     """, unsafe_allow_html=True)
