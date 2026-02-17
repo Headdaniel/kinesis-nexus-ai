@@ -140,7 +140,7 @@ st.markdown("""
 .logo-fixed {
     position: fixed;
     top: 65px;
-    left: 20px;
+    left: 100px;
     z-index: 9999;
 }
 
