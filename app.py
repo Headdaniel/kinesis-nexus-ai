@@ -182,12 +182,21 @@ st.markdown("""
 }
 
 /* Textarea real */
+/* ===== ESCRITORIO ===== */
 [data-testid="stChatInput"] textarea {
     background-color: transparent !important;
-    color: #ffffff !important;
+    color: #111111 !important;   /* texto oscuro */
     border: none !important;
     font-size: 16px;
 }
+
+/* ===== MÓVIL ===== */
+@media (max-width: 768px) {
+    [data-testid="stChatInput"] textarea {
+        color: #ffffff !important;  /* texto claro */
+    }
+}
+
 
 /* Focus efecto glow */
 [data-testid="stChatInput"] textarea:focus {
