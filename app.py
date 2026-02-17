@@ -153,12 +153,17 @@ st.markdown("""
 @media (max-width: 768px) {
 
     .logo-fixed {
-        left: 50% !important;           /* centro horizontal */
-        transform: translateX(-50%);    /* ajuste real al centro */
+        position: relative !important;   /* ← ya NO es fixed */
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        margin-top: 90px;   /* separación de la barra superior */
+        margin-bottom: 20px;
+        text-align: center;
     }
 
     .logo-fixed img {
-        width: 85px !important;         /* más pequeño en móvil */
+        width: 85px !important;
     }
 }
 
