@@ -135,23 +135,44 @@ st.markdown("""
 
 st.markdown("""
 <style>
-    ... CSS del logo ...
+
+/* Contenedor fijo del logo */
+.logo-fixed {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    z-index: 9999;
+}
+
+/* Tamaño escritorio */
+.logo-fixed img {
+    width: 120px !important;
+}
+
+/* Tamaño móvil más pequeño */
+@media (max-width: 768px) {
+    .logo-fixed img {
+        width: 85px !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# 👇 Y DESPUÉS VA EL BLOQUE QUE CARGA EL LOGO (base64)
 import base64
+
 with open("Logo Kinesis_Negativo.png", "rb") as f:
     logo_base64 = base64.b64encode(f.read()).decode()
 
 st.markdown(
     f"""
-    <div class="logo-container">
+    <div class="logo-fixed">
         <img src="data:image/png;base64,{logo_base64}">
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 st.markdown(
     """
