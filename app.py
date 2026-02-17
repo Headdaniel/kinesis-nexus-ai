@@ -162,6 +162,47 @@ st.markdown("""
     }
 }
 
+/* ===== CONTENEDOR DEL CHAT ===== */
+
+[data-testid="stChatInput"] {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 8px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+/* Hover efecto */
+[data-testid="stChatInput"]:hover {
+    border: 1px solid #58a6ff;
+}
+
+/* Textarea real */
+[data-testid="stChatInput"] textarea {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 16px;
+}
+
+/* Focus efecto glow */
+[data-testid="stChatInput"] textarea:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px #58a6ff !important;
+}
+
+/* Botón enviar */
+[data-testid="stChatInput"] button {
+    background-color: #58a6ff !important;
+    border-radius: 12px !important;
+    border: none !important;
+}
+
+
 </style>
 """, unsafe_allow_html=True)
 
