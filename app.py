@@ -157,6 +157,10 @@ h1, h3, label {
     color: #ffffff !important;
 }
 
+/* Fondo forzado también para pantalla de login */
+html, body, [data-testid="stAppViewContainer"] {
+    background-color: #002f6cff !important;
+}
 
     </style>
     """, unsafe_allow_html=True)
