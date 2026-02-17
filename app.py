@@ -139,7 +139,7 @@ st.markdown("""
 /* Contenedor fijo del logo */
 .logo-fixed {
     position: fixed;
-    top: 15px;
+    top: 65px;
     left: 20px;
     z-index: 9999;
 }
