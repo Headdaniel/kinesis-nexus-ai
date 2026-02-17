@@ -14,70 +14,6 @@ from langchain_core.documents import Document
 # --- 1. CONFIGURACIÓN DE PÁGINA (DEBE SER LO PRIMERO) ---
 st.set_page_config(page_title="Kinesis AI Pro", page_icon="🧠", layout="wide")
 
-# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
-def check_password():
-    def password_entered():
-        if st.session_state["password"] == "Kinesis2026": # Tu clave
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]
-        else:
-            st.session_state["password_correct"] = False
-
-    if "password_correct" not in st.session_state:
-
-        import base64
-        with open("Logo Kinesis_Negativo.png", "rb") as f:
-            logo_base64 = base64.b64encode(f.read()).decode()
-
-        st.markdown(
-            f"<div style='text-align:center; margin-bottom:20px;'>"
-            f"<img src='data:image/png;base64,{logo_base64}' width='110'>"
-            f"</div>",
-            unsafe_allow_html=True
-        )
-
-        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Partenón IA</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='text-align: center; color: #c9e0ff; font-weight: normal;'>Prototipo del Sistema Inteligente del proyecto Kinesis</h3>", unsafe_allow_html=True)
-        st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
-        return False
-    elif not st.session_state["password_correct"]:
-        st.text_input("Clave incorrecta. Intenta de nuevo", type="password", on_change=password_entered, key="password")
-        st.error("😕 Ups, esa no es la clave.")
-        return False
-    return True
-
-if not check_password():
-    st.stop()
-
-# --- 3. CONFIGURACIÓN DE RECURSOS ---
-load_dotenv()
-API_KEY = st.secrets["GROQ_API_KEY"] if "GROQ_API_KEY" in st.secrets else os.getenv("GROQ_API_KEY")
-client = Groq(api_key=API_KEY)
-DB_PATH = "data/vectors_v2"
-CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
-CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
-
-def ingest_context_csv_to_chroma(v_db, csv_path: str):
-    df_ctx = pd.read_csv(csv_path)
-
-    full_text = ""
-
-    for _, row in df_ctx.iterrows():
-        for col in df_ctx.columns:
-            value = str(row[col]).strip()
-            if value and value.lower() != "nan":
-                full_text += value + "\n"
-        full_text += "\n"
-
-    doc = Document(
-        page_content=full_text,
-        metadata={"source": "context_csv_full"}
-    )
-
-
-    v_db.add_documents([doc])
-
-
 # Estilo CSS para modo oscuro total y centrado
 st.markdown("""
     <style>
@@ -164,6 +100,72 @@ html, body, [data-testid="stAppViewContainer"] {
 
     </style>
     """, unsafe_allow_html=True)
+
+# --- 2. SEGURIDAD: CONTROL DE ACCESO ---
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == "Kinesis2026": # Tu clave
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+
+        import base64
+        with open("Logo Kinesis_Negativo.png", "rb") as f:
+            logo_base64 = base64.b64encode(f.read()).decode()
+
+        st.markdown(
+            f"<div style='text-align:center; margin-bottom:20px;'>"
+            f"<img src='data:image/png;base64,{logo_base64}' width='110'>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+
+        st.markdown("<h1 style='text-align: center; color: #58a6ff;'>Partenón IA</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center; color: #c9e0ff; font-weight: normal;'>Prototipo del Sistema Inteligente del proyecto Kinesis</h3>", unsafe_allow_html=True)
+        st.text_input("Introduce la clave de acceso", type="password", on_change=password_entered, key="password")
+        return False
+    elif not st.session_state["password_correct"]:
+        st.text_input("Clave incorrecta. Intenta de nuevo", type="password", on_change=password_entered, key="password")
+        st.error("😕 Ups, esa no es la clave.")
+        return False
+    return True
+
+if not check_password():
+    st.stop()
+
+# --- 3. CONFIGURACIÓN DE RECURSOS ---
+load_dotenv()
+API_KEY = st.secrets["GROQ_API_KEY"] if "GROQ_API_KEY" in st.secrets else os.getenv("GROQ_API_KEY")
+client = Groq(api_key=API_KEY)
+DB_PATH = "data/vectors_v2"
+CSV_FILE = "data/raw/Base_maestra_kinesis.csv"
+CONTEXT_CSV_FILE = "data/raw/Explicacion_contexto_programa.csv"
+
+def ingest_context_csv_to_chroma(v_db, csv_path: str):
+    df_ctx = pd.read_csv(csv_path)
+
+    full_text = ""
+
+    for _, row in df_ctx.iterrows():
+        for col in df_ctx.columns:
+            value = str(row[col]).strip()
+            if value and value.lower() != "nan":
+                full_text += value + "\n"
+        full_text += "\n"
+
+    doc = Document(
+        page_content=full_text,
+        metadata={"source": "context_csv_full"}
+    )
+
+
+    v_db.add_documents([doc])
+
+
+
 
 st.markdown("""
 <style>
