@@ -117,7 +117,7 @@ def check_password():
             logo_base64 = base64.b64encode(f.read()).decode()
 
         st.markdown(
-            f"<div style='text-align:center; margin-bottom:20px;'>"
+            f"<div style='text-align:center; margin-top:120px; margin-bottom:20px;'>"
             f"<img src='data:image/png;base64,{logo_base64}' width='110'>"
             f"</div>",
             unsafe_allow_html=True
