@@ -139,7 +139,7 @@ st.markdown("""
 /* Contenedor fijo del logo */
 .logo-fixed {
     position: fixed;
-    top: 75px;
+    top: 85px;
     left: 200px;
     z-index: 9999;
 }
@@ -151,8 +151,14 @@ st.markdown("""
 
 /* Tamaño móvil más pequeño */
 @media (max-width: 768px) {
+
+    .logo-fixed {
+        left: 50% !important;           /* centro horizontal */
+        transform: translateX(-50%);    /* ajuste real al centro */
+    }
+
     .logo-fixed img {
-        width: 85px !important;
+        width: 85px !important;         /* más pequeño en móvil */
     }
 }
 
