@@ -133,6 +133,25 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+    ... CSS del logo ...
+</style>
+""", unsafe_allow_html=True)
+
+# 👇 Y DESPUÉS VA EL BLOQUE QUE CARGA EL LOGO (base64)
+import base64
+with open("Logo Kinesis_Negativo.png", "rb") as f:
+    logo_base64 = base64.b64encode(f.read()).decode()
+
+st.markdown(
+    f"""
+    <div class="logo-container">
+        <img src="data:image/png;base64,{logo_base64}">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 st.markdown(
     """
