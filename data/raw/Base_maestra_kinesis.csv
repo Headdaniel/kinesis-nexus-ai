@@ -1,51 +1,56 @@
 ID,País de procedencia del empresario,Sector al que pertenece la empresa,Edad del o la empresario/a,Ventas_netas_año 2021 en dólares,Ventas_netas_año 2022 en dólares,Ventas_netas_año 2023 en dólares,Ventas_netas_año 2024 en dólares,Ventas_netas_año 2025 en dólares,Género del o la gerente,Más del 50% de accionistas son mujeres,Escolaridad del o la gerente,"Actualmente, ¿te dedicas tiempo completo a tu empresa?",Número de empleos creados hasta el 2025,Número de empleos mantenidos hasta el 2025,Valor del ticket promedio,Empresa de ejecución directa por Kinesis,Número de principales aliados,¿Consideras que Kinesis mejoró tus conocimientos para gestionar mejor tu empresa?,¿Consideras que hubo un cambio en tus capacidades como empresario/a?
-ID-001,Colombia,Agro,23,100000,120000,150000,187500,234375,Mujer,Sí,Maestría,No,5,5,2000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-002,México,Belleza,40,200000,240000,300000,375000,468750,Hombre,No,Licenciatura,No,6,6,3000,Sí,4,De acuerdo,Totalmente de acuerdo
-ID-003,Costa Rica,Tecnologías y servicios digitales,52,300000,360000,450000,562500,703125,No precisa,Sí,Técnico/a,No,7,7,5000,Sí,6,De acuerdo,De acuerdo
-ID-004,Panamá,Consultoría,33,150000,180000,225000,281250,351562.5,Mujer,Sí,No culminó estudios,No,8,8,2000,Sí,1,Totalmente de acuerdo,De acuerdo
-ID-005,Colombia,Salud,28,250000,300000,375000,468750,585937.5,Hombre,No,Maestría,No,9,9,3000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-006,México,Entretenimiento,57,500000,600000,750000,937500,1171875,No precisa,No,Licenciatura,No,10,10,5000,Sí,3,De acuerdo,Totalmente de acuerdo
-ID-007,Costa Rica,Textil,18,600000,720000,900000,1125000,1406250,Mujer,No,Técnico/a,Sí,11,11,2000,No,2,De acuerdo,De acuerdo
-ID-008,Panamá,Restaurantes,20,700000,840000,1050000,1312500,1640625,Hombre,No,No culminó estudios,Sí,12,12,3000,No,4,Totalmente de acuerdo,De acuerdo
-ID-009,Colombia,Salud,27,1000000,1200000,1500000,1875000,2343750,No precisa,No,Maestría,Sí,13,13,5000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-010,México,Entretenimiento,26,600000,720000,900000,1125000,1406250,Mujer,No,Licenciatura,Sí,14,14,2000,No,2,De acuerdo,Totalmente de acuerdo
-ID-011,Costa Rica,Salud,25,700000,840000,1050000,1312500,1640625,Hombre,No,Técnico/a,Sí,15,15,3000,Sí,2,De acuerdo,De acuerdo
-ID-012,Panamá,Entretenimiento,23,1000000,1200000,1500000,1875000,2343750,No precisa,No,No culminó estudios,No,16,16,5000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-013,Colombia,Textil,22,500000,600000,750000,937500,1171875,Mujer,No,Maestría,No,17,17,2000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-014,México,Agro,20,80000,96000,120000,150000,187500,Hombre,No,Licenciatura,No,18,18,3000,Sí,4,De acuerdo,Totalmente de acuerdo
-ID-015,Costa Rica,Belleza,19,40000,48000,60000,75000,93750,No precisa,No,Técnico/a,No,19,19,5000,No,6,De acuerdo,De acuerdo
-ID-016,Panamá,Tecnologías y servicios digitales,20,75000,90000,112500,140625,175781.25,Mujer,No,No culminó estudios,No,20,20,2000,Sí,1,Totalmente de acuerdo,De acuerdo
-ID-017,Colombia,Consultoría,33,150000,180000,225000,281250,351562.5,Hombre,Sí,Maestría,No,21,21,3000,No,3,Ni de acuerdo ni en desacuerdo,Totalmente de acuerdo
-ID-018,México,Salud,32,250000,300000,375000,468750,585937.5,No precisa,Sí,Licenciatura,No,22,22,5000,Sí,3,De acuerdo,Totalmente de acuerdo
-ID-019,Costa Rica,Entretenimiento,45,500000,600000,750000,937500,1171875,Mujer,Sí,Técnico/a,No,23,23,2000,Sí,2,Totalmente de acuerdo,Ni de acuerdo ni en desacuerdo
-ID-020,Panamá,Textil,36,600000,720000,900000,1125000,1406250,Hombre,Sí,No culminó estudios,No,24,24,3000,Sí,4,Totalmente de acuerdo,De acuerdo
-ID-021,Colombia,Restaurantes,23,40000,48000,60000,75000,93750,No precisa,Sí,Maestría,No,25,25,5000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-022,México,Textil,26,75000,90000,112500,140625,175781.25,Mujer,Sí,Licenciatura,No,26,26,2000,Sí,2,De acuerdo,De acuerdo
-ID-023,Costa Rica,Restaurantes,32,125000,150000,187500,234375,292968.75,Hombre,Sí,Técnico/a,No,27,27,3000,No,2,De acuerdo,De acuerdo
-ID-024,Panamá,Salud,30,150000,180000,225000,281250,351562.5,No precisa,Sí,No culminó estudios,No,28,28,5000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-025,México,Entretenimiento,26,300000,360000,450000,562500,703125,Mujer,No,Maestría,Sí,29,29,2000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-026,Costa Rica,Salud,28,150000,180000,225000,281250,351562.5,Hombre,Sí,Licenciatura,Sí,30,30,3000,No,3,Ni de acuerdo ni en desacuerdo,De acuerdo
-ID-027,Panamá,Entretenimiento,46,600000,720000,900000,1125000,1406250,No precisa,Sí,Técnico/a,Sí,31,31,5000,Sí,3,De acuerdo,De acuerdo
-ID-028,Colombia,Textil,45,700000,840000,1050000,1312500,1640625,Mujer,Sí,No culminó estudios,Sí,32,32,2000,Sí,2,Totalmente de acuerdo,Totalmente de acuerdo
-ID-029,México,Agro,35,1000000,1200000,1500000,1875000,2343750,Hombre,Sí,Maestría,Sí,33,33,3000,Sí,4,Totalmente de acuerdo,Totalmente de acuerdo
-ID-030,Costa Rica,Belleza,18,500000,600000,750000,937500,1171875,No precisa,Sí,Licenciatura,No,34,34,5000,Sí,5,Totalmente de acuerdo,De acuerdo
-ID-031,Panamá,Tecnologías y servicios digitales,56,80000,96000,120000,150000,187500,Mujer,No,Técnico/a,No,35,35,2000,No,2,De acuerdo,Totalmente de acuerdo
-ID-032,Colombia,Tecnologías y servicios digitales,25,40000,48000,60000,75000,93750,Hombre,No,No culminó estudios,No,36,36,3000,Sí,2,De acuerdo,Totalmente de acuerdo
-ID-033,México,Consultoría,23,75000,90000,112500,140625,175781.25,No precisa,No,Maestría,No,37,37,5000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-034,Costa Rica,Salud,22,600000,720000,900000,1125000,1406250,Mujer,No,Licenciatura,No,38,38,2000,Sí,5,Totalmente de acuerdo,En desacuerdo
-ID-035,Panamá,Entretenimiento,20,700000,840000,1050000,1312500,1640625,Hombre,No,Técnico/a,No,39,39,3000,Sí,4,Totalmente de acuerdo,Ni de acuerdo ni en desacuerdo
-ID-036,Colombia,Textil,19,1000000,1200000,1500000,1875000,2343750,No precisa,No,No culminó estudios,No,40,40,5000,Sí,6,Totalmente de acuerdo,Totalmente de acuerdo
-ID-037,México,Restaurantes,20,500000,600000,750000,937500,1171875,Mujer,No,Maestría,Sí,41,41,2000,Sí,1,Totalmente de acuerdo,Totalmente de acuerdo
-ID-038,Costa Rica,Textil,22,80000,96000,120000,150000,187500,Hombre,No,Licenciatura,Sí,42,42,3000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-039,Panamá,Restaurantes,20,40000,48000,60000,75000,93750,No precisa,Sí,Técnico/a,Sí,43,43,5000,No,3,Totalmente de acuerdo,De acuerdo
-ID-040,Costa Rica,Salud,19,75000,90000,112500,140625,175781.25,Mujer,No,No culminó estudios,Sí,44,44,2000,No,2,Totalmente de acuerdo,De acuerdo
-ID-041,Panamá,Entretenimiento,20,250000,300000,375000,468750,585937.5,Hombre,Sí,Maestría,Sí,45,45,3000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-042,Panamá,Tecnologías y servicios digitales,33,500000,600000,750000,937500,1171875,No precisa,Sí,Licenciatura,No,46,46,5000,No,2,En desacuerdo,Totalmente de acuerdo
-ID-043,Colombia,Consultoría,32,600000,720000,900000,1125000,1406250,Mujer,Sí,Técnico/a,No,47,47,2000,Sí,2,Ni de acuerdo ni en desacuerdo,Ni de acuerdo ni en desacuerdo
-ID-044,México,Salud,45,40000,48000,60000,75000,93750,Hombre,Sí,No culminó estudios,Sí,48,48,3000,Sí,3,Totalmente de acuerdo,De acuerdo
-ID-045,Costa Rica,Entretenimiento,36,75000,90000,112500,140625,175781.25,No precisa,No,Maestría,Sí,49,49,5000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
-ID-046,Panamá,Textil,19,125000,150000,187500,234375,292968.75,Mujer,No,Licenciatura,Sí,50,50,2000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-047,Panamá,Restaurantes,20,150000,180000,225000,281250,351562.5,Hombre,No,Técnico/a,Sí,51,51,3000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
-ID-048,Colombia,Textil,22,300000,360000,450000,562500,703125,No precisa,No,No culminó estudios,Sí,52,52,5000,Sí,2,Totalmente de acuerdo,De acuerdo
-ID-049,México,Restaurantes,20,150000,180000,225000,281250,351562.5,Mujer,Sí,Maestría,No,53,53,5000,No,4,En desacuerdo,De acuerdo
-ID-050,Costa Rica,Salud,19,600000,720000,900000,1125000,1406250,Hombre,Sí,Licenciatura,No,54,54,5000,Sí,2,En desacuerdo,De acuerdo
+ID-001,Colombia,Agro,23,100000,120000,150000,187500,234375,Mujer,Sí,Maestría,No,134,182,2000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-002,México,Belleza,40,200000,240000,300000,375000,468750,Hombre,No,Licenciatura,No,287,247,3000,Sí,4,De acuerdo,Totalmente de acuerdo
+ID-003,Costa Rica,Tecnologías y servicios digitales,52,300000,360000,450000,562500,703125,No precisa,Sí,Técnico/a,No,459,136,5000,Sí,6,De acuerdo,De acuerdo
+ID-004,Panamá,Consultoría,33,150000,180000,225000,281250,351562.5,Mujer,Sí,No culminó estudios,No,312,295,2000,Sí,1,Totalmente de acuerdo,De acuerdo
+ID-005,Colombia,Salud,28,250000,300000,375000,468750,585937.5,Hombre,No,Maestría,No,178,214,3000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-006,México,Entretenimiento,57,500000,600000,750000,937500,1171875,No precisa,No,Licenciatura,No,401,168,5000,Sí,3,De acuerdo,Totalmente de acuerdo
+ID-007,Costa Rica,Textil,18,600000,720000,900000,1125000,1406250,Mujer,No,Técnico/a,Sí,256,259,2000,No,2,De acuerdo,De acuerdo
+ID-008,Panamá,Restaurantes,20,700000,840000,1050000,1312500,1640625,Hombre,No,No culminó estudios,Sí,390,121,3000,No,4,Totalmente de acuerdo,De acuerdo
+ID-009,Colombia,Salud,27,1000000,1200000,1500000,1875000,2343750,No precisa,No,Maestría,Sí,145,276,5000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-010,México,Entretenimiento,26,600000,720000,900000,1125000,1406250,Mujer,No,Licenciatura,Sí,498,189,2000,No,2,De acuerdo,Totalmente de acuerdo
+ID-011,Costa Rica,Salud,25,700000,840000,1050000,1312500,1640625,Hombre,No,Técnico/a,Sí,223,233,3000,Sí,2,De acuerdo,De acuerdo
+ID-012,Panamá,Entretenimiento,23,1000000,1200000,1500000,1875000,2343750,No precisa,No,No culminó estudios,No,367,154,5000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-013,Colombia,Textil,22,500000,600000,750000,937500,1171875,Mujer,No,Maestría,No,410,298,2000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-014,México,Agro,20,80000,96000,120000,150000,187500,Hombre,No,Licenciatura,No,299,207,3000,Sí,4,De acuerdo,Totalmente de acuerdo
+ID-015,Costa Rica,Belleza,19,40000,48000,60000,75000,93750,No precisa,No,Técnico/a,No,182,145,5000,No,6,De acuerdo,De acuerdo
+ID-016,Panamá,Tecnologías y servicios digitales,20,75000,90000,112500,140625,175781.25,Mujer,No,No culminó estudios,No,475,262,2000,Sí,1,Totalmente de acuerdo,De acuerdo
+ID-017,Colombia,Consultoría,33,150000,180000,225000,281250,351562.5,Hombre,Sí,Maestría,No,338,173,3000,No,3,Ni de acuerdo ni en desacuerdo,Totalmente de acuerdo
+ID-018,México,Salud,32,250000,300000,375000,468750,585937.5,No precisa,Sí,Licenciatura,No,121,284,5000,Sí,3,De acuerdo,Totalmente de acuerdo
+ID-019,Costa Rica,Entretenimiento,45,500000,600000,750000,937500,1171875,Mujer,Sí,Técnico/a,No,444,119,2000,Sí,2,Totalmente de acuerdo,Ni de acuerdo ni en desacuerdo
+ID-020,Panamá,Textil,36,600000,720000,900000,1125000,1406250,Hombre,Sí,No culminó estudios,No,360,230,3000,Sí,4,Totalmente de acuerdo,De acuerdo
+ID-021,Colombia,Restaurantes,23,40000,48000,60000,75000,93750,No precisa,Sí,Maestría,No,205,191,5000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-022,México,Textil,26,75000,90000,112500,140625,175781.25,Mujer,Sí,Licenciatura,No,489,268,2000,Sí,2,De acuerdo,De acuerdo
+ID-023,Costa Rica,Restaurantes,32,125000,150000,187500,234375,292968.75,Hombre,Sí,Técnico/a,No,150,158,3000,No,2,De acuerdo,De acuerdo
+ID-024,Panamá,Salud,30,150000,180000,225000,281250,351562.5,No precisa,Sí,No culminó estudios,No,276,299,5000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-025,México,Entretenimiento,26,300000,360000,450000,562500,703125,Mujer,No,Maestría,Sí,331,204,2000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-026,Costa Rica,Salud,28,150000,180000,225000,281250,351562.5,Hombre,Sí,Licenciatura,Sí,417,137,3000,No,3,Ni de acuerdo ni en desacuerdo,De acuerdo
+ID-027,Panamá,Entretenimiento,46,600000,720000,900000,1125000,1406250,No precisa,Sí,Técnico/a,Sí,263,250,5000,Sí,3,De acuerdo,De acuerdo
+ID-028,Colombia,Textil,45,700000,840000,1050000,1312500,1640625,Mujer,Sí,No culminó estudios,Sí,392,176,2000,Sí,2,Totalmente de acuerdo,Totalmente de acuerdo
+ID-029,México,Agro,35,1000000,1200000,1500000,1875000,2343750,Hombre,Sí,Maestría,Sí,108,221,3000,Sí,4,Totalmente de acuerdo,Totalmente de acuerdo
+ID-030,Costa Rica,Belleza,18,500000,600000,750000,937500,1171875,No precisa,Sí,Licenciatura,No,354,143,5000,Sí,5,Totalmente de acuerdo,De acuerdo
+ID-031,Panamá,Tecnologías y servicios digitales,56,80000,96000,120000,150000,187500,Mujer,No,Técnico/a,No,470,287,2000,No,2,De acuerdo,Totalmente de acuerdo
+ID-032,Colombia,Tecnologías y servicios digitales,25,40000,48000,60000,75000,93750,Hombre,No,No culminó estudios,No,241,160,3000,Sí,2,De acuerdo,Totalmente de acuerdo
+ID-033,México,Consultoría,23,75000,90000,112500,140625,175781.25,No precisa,No,Maestría,No,315,274,5000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-034,Costa Rica,Salud,22,600000,720000,900000,1125000,1406250,Mujer,No,Licenciatura,No,199,132,2000,Sí,5,Totalmente de acuerdo,En desacuerdo
+ID-035,Panamá,Entretenimiento,20,700000,840000,1050000,1312500,1640625,Hombre,No,Técnico/a,No,428,296,3000,Sí,4,Totalmente de acuerdo,Ni de acuerdo ni en desacuerdo
+ID-036,Colombia,Textil,19,1000000,1200000,1500000,1875000,2343750,No precisa,No,No culminó estudios,No,362,185,5000,Sí,6,Totalmente de acuerdo,Totalmente de acuerdo
+ID-037,México,Restaurantes,20,500000,600000,750000,937500,1171875,Mujer,No,Maestría,Sí,284,239,2000,Sí,1,Totalmente de acuerdo,Totalmente de acuerdo
+ID-038,Costa Rica,Textil,22,80000,96000,120000,150000,187500,Hombre,No,Licenciatura,Sí,137,149,3000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-039,Panamá,Restaurantes,20,40000,48000,60000,75000,93750,No precisa,Sí,Técnico/a,Sí,452,260,5000,No,3,Totalmente de acuerdo,De acuerdo
+ID-040,Costa Rica,Salud,19,75000,90000,112500,140625,175781.25,Mujer,No,No culminó estudios,Sí,309,170,2000,No,2,Totalmente de acuerdo,De acuerdo
+ID-041,Panamá,Entretenimiento,20,250000,300000,375000,468750,585937.5,Hombre,Sí,Maestría,Sí,118,213,3000,No,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-042,Panamá,Tecnologías y servicios digitales,33,500000,600000,750000,937500,1171875,No precisa,Sí,Licenciatura,No,385,294,5000,No,2,En desacuerdo,Totalmente de acuerdo
+ID-043,Colombia,Consultoría,32,600000,720000,900000,1125000,1406250,Mujer,Sí,Técnico/a,No,274,155,2000,Sí,2,Ni de acuerdo ni en desacuerdo,Ni de acuerdo ni en desacuerdo
+ID-044,México,Salud,45,40000,48000,60000,75000,93750,Hombre,Sí,No culminó estudios,Sí,496,278,3000,Sí,3,Totalmente de acuerdo,De acuerdo
+ID-045,Costa Rica,Entretenimiento,36,75000,90000,112500,140625,175781.25,No precisa,No,Maestría,Sí,210,124,5000,Sí,5,Totalmente de acuerdo,Totalmente de acuerdo
+ID-046,Panamá,Textil,19,125000,150000,187500,234375,292968.75,Mujer,No,Licenciatura,Sí,343,241,2000,Sí,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-047,Panamá,Restaurantes,20,150000,180000,225000,281250,351562.5,Hombre,No,Técnico/a,Sí,461,167,3000,No,3,Totalmente de acuerdo,Totalmente de acuerdo
+ID-048,Colombia,Textil,22,300000,360000,450000,562500,703125,No precisa,No,No culminó estudios,Sí,156,289,5000,Sí,2,Totalmente de acuerdo,De acuerdo
+ID-049,México,Restaurantes,20,150000,180000,225000,281250,351562.5,Mujer,Sí,Maestría,No,399,200,5000,No,4,En desacuerdo,De acuerdo
+ID-050,Costa Rica,Salud,19,600000,720000,900000,1125000,1406250,Hombre,Sí,Licenciatura,No,320,146,5000,Sí,2,En desacuerdo,De acuerdo
+,Belleza,3,,,,,,,,,,,,,,,,,
+,Textil,9,,,,,,,,,,,,,,,,,
+,Entretenimiento,9,,,,,,,,,,,,,,,,,
+,Salud,10,,,,,,,,,,,,,,,,,
+,Tecnologías y servicios digitales,5,,,,,,,,,,,,,,,,,
