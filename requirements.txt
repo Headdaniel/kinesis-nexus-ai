@@ -8,3 +8,5 @@ langchain-huggingface
 langchain-chroma
 sentence-transformers
 torch
+fastapi
+uvicorn
