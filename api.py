@@ -77,7 +77,7 @@ def get_ai_response(prompt, context="", df_data=None):
         content = prompt
 
     res = client.chat.completions.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        model="llama-3.1-8b-instant",
         messages=[
             {"role": "system", "content": sys_msg},
             {"role": "user", "content": content}
@@ -106,7 +106,7 @@ def chat(req: ChatRequest):
     user_input = req.texto
 
     # RAG: buscar contexto en vectores
-    docs = v_db.similarity_search(user_input, k=6)
+    docs = v_db.similarity_search(user_input, k=2)
     context_text = "\n".join([d.page_content for d in docs])
 
     # Respuesta inicial
