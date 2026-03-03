@@ -3,3 +3,12 @@ venv/
 __pycache__/
 .streamlit/
 *.pyc
+venv/
+__pycache__/
+.env
+
+chroma_db/
+data/vectors_*/
+*.bin
+*.sqlite3
+*.db
