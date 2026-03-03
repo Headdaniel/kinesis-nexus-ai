@@ -14,3 +14,4 @@ langchain-core==0.1.52
 chromadb==0.4.24
 sentence-transformers==2.6.1
 torch==2.2.2
+langchain-huggingface==0.0.3
